@@ -2,18 +2,19 @@
 
 use CRM\Validators\ImportAgenciesValidator;
 use Laracasts\Commander\CommanderTrait;
-use CRM\Agencies\ImportAgenciesCommand;
+use CRM\Repositories\AgencyRepository;
+use CRM\Libraries\Helper;
 
 class AgenciesController extends \BaseController {
 
 	use CommanderTrait;
 	
-	protected $importValidator, $importCommand;
+	protected $importValidator, $agencyRepository;
 	
-	public function __construct(ImportAgenciesValidator $importValidator, ImportAgenciesCommand $importCommand)
+	public function __construct(ImportAgenciesValidator $importValidator, AgencyRepository $agencyRepository)
 	{
 		$this->importValidator = $importValidator;
-		$this->importCommand = $importCommand;
+		$this->agencyRepository = $agencyRepository;
 	}
 	
 	/**
@@ -23,9 +24,12 @@ class AgenciesController extends \BaseController {
 	 */
 	public function index()
 	{
-		return View::make('agencies.index');
+		$cities = $this->agencyRepository->getCities();
+		
+		$cityOptions = Helper::cityOptions($cities);
+		
+		return View::make('agencies.index', compact('cityOptions'));
 	}
-
 
 	/**
 	 * Show the form for creating a new resource.
@@ -34,9 +38,9 @@ class AgenciesController extends \BaseController {
 	 */
 	public function create()
 	{
+		
 		return View::make('agencies.create');
 	}
-
 
 	/**
 	 * Store a newly created resource in storage.
@@ -47,19 +51,14 @@ class AgenciesController extends \BaseController {
 	{
 		$input = Input::file();
 		
-		$error = $this->importValidator->validate($input);
+		$this->importValidator->validate($input);
 		
-		if ($error)
-		{
-			Flash::error($error);
-			return Redirect::back()->withInput();
-		}
-		
-		$this->execute('CRM\Agencies\ImportAgenciesCommand', $input);	
-		
-		return Redirect::route('crm');
-	}
+		$this->execute('CRM\Agencies\ImportAgenciesCommand', $input);
 
+		Flash::success('Data was imported successfully.');
+		
+		return Redirect::route('agencies.index');
+	}
 
 	/**
 	 * Display the specified resource.
@@ -69,43 +68,18 @@ class AgenciesController extends \BaseController {
 	 */
 	public function show($id)
 	{
-		//
-	}
-
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function edit($id)
+		$agency = $this->agencyRepository->getAgencyById($id);
+		
+		return View::make('agencies.show', compact('agency'));		
+	}	
+	
+	public function agenciesByCity()
 	{
-		//
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function update($id)
-	{
-		//
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int  $id
-	 * @return Response
-	 */
-	public function destroy($id)
-	{
-		//
+		$city = Input::get('city');
+		
+		$agencies = $this->agencyRepository->getAgenciesByCity($city);
+		
+		return View::make('agencies.agenciesByCity', compact('agencies', 'city'));
 	}
 
 

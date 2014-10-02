@@ -4,6 +4,8 @@
 
 	<h1>Import Agencies</h1>
 	
+	@include('layouts.partials.errors')
+	
 	{{Form::open(['route'=>'agencies.store', 'files'=>true])}}
 	
 		<div class='form-group'>

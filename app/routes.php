@@ -10,16 +10,39 @@
 |
 */
 
+Route::get('/', [
+	'as' => 'home',
+	'uses' => 'HomeController@index'
+]);
 
 Route::resource('agencies', 'AgenciesController');
 
+Route::get('createOwner/{agencyId}', [
+	'as' => 'createOwner',
+	'uses' => 'OwnersController@create'
+]);
+
+Route::resource('owners', 'OwnersController');
+
+Route::get('createStaff/{agencyId}', [
+	'as' => 'createStaff',
+	'uses' => 'StaffsController@create'	
+]);
+
+Route::resource('staffs', 'StaffsController');
+
+Route::post('agenciesByCity', [
+	'as' => 'agenciesByCity',
+	'uses' => 'AgenciesController@agenciesByCity'
+]);
+
 Route::get('tests', function()
 {
-	$path = storage_path('logs/');
+	/*$path = storage_path('logs/');
 	if (file_exists($path.'laravel-2014-09-26.log'))
 	{
 		dd('exists');
 	} else {
 		dd('not exist');
-	}
+	}*/
 });

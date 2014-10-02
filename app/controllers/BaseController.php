@@ -1,7 +1,11 @@
 <?php
 
+use Laracasts\Commander\CommanderTrait;
+
 class BaseController extends Controller {
 
+	use CommanderTrait;
+	
 	public function __construct()
 	{
 		$this->beforeFilter('csrf', array('on'=>['post', 'put', 'patch']));
