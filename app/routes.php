@@ -12,7 +12,7 @@
 
 Route::get('/', [
 	'as' => 'home',
-	'uses' => 'HomeController@index'
+	'uses' => 'AgenciesController@index'
 ]);
 
 Route::resource('agencies', 'AgenciesController');
