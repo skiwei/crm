@@ -14,7 +14,7 @@ class CreateAgenciesTable extends Migration {
 	{
 		Schema::create('agencies', function(Blueprint $table)
 		{
-			$table->string('agency_id', 20)->primary();
+			$table->string('id', 20)->primary();
 			$table->string('home_office')->nullable();
 			$table->string('name');
 			$table->string('trade_name');

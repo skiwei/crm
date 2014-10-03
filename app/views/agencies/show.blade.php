@@ -6,7 +6,7 @@ $staffs = $agency->staffs;
 @extends('layouts.crm')
 
 @section('content')
-
+	
 	<p>{{link_to_route('agencies.index', 'Agencies')}}</p>
 	
 	<h1 class='text-center'>
@@ -18,14 +18,18 @@ $staffs = $agency->staffs;
 		<p>
 			<b>Address:</b><br>
 			{{$agency->address}},<br>
-			{{$agency->city}}, {{$agency->state}} {{$agency->zipcode}}
+			{{$agency->city}}, {{$agency->state}} {{$agency->zipcode}} 
+			<a href="https://www.google.com/maps/place/{{urlencode($agency->address.','.$agency->city.','.$agency->state.' '.$agency->zipcode)}}">
+				<span class='glyphicon glyphicon-map-marker text-danger'></span>
+			</a>
 		</p>
 		<p><b>Phone:</b> {{$agency->phone}}</p>
+		
 	</div>
 	
 	<div class='col-md-6'>
 		<p>
-			Owner 
+			Main Contact 
 			@if ($owner)
 				{{link_to_route('owners.edit', 'edit', $owner->id)}}
 			@else
