@@ -1,14 +1,11 @@
 <?php
 
 use CRM\Validators\ImportAgenciesValidator;
-use Laracasts\Commander\CommanderTrait;
 use CRM\Repositories\AgencyRepository;
 use CRM\Libraries\Helper;
 
 class AgenciesController extends \BaseController {
 
-	use CommanderTrait;
-	
 	protected $importValidator, $agencyRepository;
 	
 	public function __construct(ImportAgenciesValidator $importValidator, AgencyRepository $agencyRepository)

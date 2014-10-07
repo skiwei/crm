@@ -3,7 +3,7 @@
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateTableOwners extends Migration {
+class CreateSchedulesTable extends Migration {
 
 	/**
 	 * Run the migrations.
@@ -12,14 +12,11 @@ class CreateTableOwners extends Migration {
 	 */
 	public function up()
 	{
-		Schema::create('owners', function(Blueprint $table)
+		Schema::create('schedules', function(Blueprint $table)
 		{
 			$table->increments('id');
-			$table->string('agency_id', 20)->unique()->index();
-			$table->string('firstname');
-			$table->string('lastname');
-			$table->string('phone');
-			$table->string('email');
+			$table->date('schedule_date')->index();
+			$table->string('agency_id')->index();
 			$table->timestamps();
 		});
 	}
@@ -31,7 +28,7 @@ class CreateTableOwners extends Migration {
 	 */
 	public function down()
 	{
-		Schema::drop('owners');
+		Schema::drop('schedules');
 	}
 
 }

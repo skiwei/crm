@@ -31,10 +31,17 @@ Route::get('createStaff/{agencyId}', [
 
 Route::resource('staffs', 'StaffsController');
 
-Route::post('agenciesByCity', [
+Route::get('agenciesByCity', [
 	'as' => 'agenciesByCity',
 	'uses' => 'AgenciesController@agenciesByCity'
 ]);
+
+Route::get('schedulesByDate', [
+	'as' => 'schedulesByDate',
+	'uses' => 'SchedulesController@schedulesByDate'	
+]);
+
+Route::resource('schedules', 'SchedulesController');
 
 Route::get('tests', function()
 {
